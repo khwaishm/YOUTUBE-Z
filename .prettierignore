@@ -1,5 +1,34 @@
-*.env
-.env*
 
+#depencies
 /node_modules
-./dist
+
+
+
+#build output directories
+/dist
+/build
+/out
+/.next
+/.cache
+/public
+
+
+#local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+#npm package lock
+package-lock.json
+
+#configure file 
+config.js
+```
+
+## 2.2.2. .gitignore
+
+```bash 
+
+
+
