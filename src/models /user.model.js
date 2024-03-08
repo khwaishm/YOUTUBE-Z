@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose'
-import { Jwt } from 'jsonwebtoken'
+import Jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-
 //initializing the schema
 const userSchema = new Schema(
   {
@@ -35,7 +34,7 @@ const userSchema = new Schema(
     },
     watchHistory: [
       {
-        type: Schema.type.objectId,
+        type: Schema.Types.ObjectId,
         ref: 'video',
       },
     ],
@@ -57,7 +56,7 @@ userSchema.pre('save', async function (next) {
   // checking if the password is modified
   if (!this.isModified('password')) return next()
   //hashing the password
-  this.passward = bcrypt.hash(this.password, 10)
+  this.passward = await bcrypt.hash(this.password, 10)
   next()
 })
 
@@ -69,7 +68,7 @@ userSchema.methods.isPasswordCorrect = async function (pass) {
 
 // creating a custom method to generate the access token
 userSchema.methods.generateAccessToken = function () {
-  return jwt.sign(
+  return Jwt.sign(
     {
       _id: this._id,
       email: this.email,
@@ -97,4 +96,5 @@ userSchema.methods.generateRefreshToken = function () {
 }
 
 //exporting the model for user
-export const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema)
+export default User
